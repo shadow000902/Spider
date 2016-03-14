@@ -28,6 +28,7 @@ def LaGouSpiderWithKeyWord(position, city):
         print('抱歉！在您搜索的城市中没有您要找的职位')
         return
 
+    totaldata = DataFrame().T
     for i in range(0, pageCount):
         url = 'http://www.lagou.com/jobs/positionAjax.json?'
         params = {'city': city, 'kd': position, 'pn': i+1}
