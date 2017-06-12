@@ -7,6 +7,7 @@ __pycache__/
 *.so
 
 .idea/
+/*/output.html
 # Distribution / packaging
 .Python
 env/
