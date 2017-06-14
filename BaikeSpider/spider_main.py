@@ -3,7 +3,7 @@
 
 from BaikeSpider import url_manager, html_downloader, html_parser, html_outputer
 
-
+# 总调度程序
 class SpiderMain(object):
 	def __init__(self):
 		self.urls = url_manager.UrlManager()
@@ -20,10 +20,10 @@ class SpiderMain(object):
 				print "craw %d : %s" % (count, new_url)
 				html_cont = self.downloader.download(new_url)
 				new_urls, new_data = self.parser.parse(new_url, html_cont)
-				self.urls.add_new_urls(new_url)
+				self.urls.add_new_urls(new_urls)
 				self.outputer.collect_data(new_data)
 
-				if count == 1000:
+				if count == 10:
 					break
 
 				count = count + 1
