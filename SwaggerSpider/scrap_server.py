@@ -73,7 +73,7 @@ def wide_chars(s):
 # 读取生成的接口JsonFile 生成对应格式的Info
 # 订单中心 001 取消订单 /app/car/appcarsearchaction
 def read_and_generate_format_file(file_path):
-	format_file_path = os.path.join(os.path.dirname(file_path), infoDict['itemDescription'] + '.csv')
+	format_file_path = os.path.join(os.path.dirname(file_path), infoDict['pathDescription'] + "_" + infoDict['itemDescription'] + '.csv')
 	if os.path.exists(file_path):
 		with open(file_path) as json_data:
 			jsonInfo = json.load(json_data)
@@ -94,6 +94,8 @@ def read_and_generate_format_file(file_path):
 						format_file_path,
 						infoDict['rootDescription']
 						+ ', '
+						+ infoDict['pathDescription']
+						+ '_'
 						+ infoDict['itemDescription']
 						+ ', '
 						+ '{num:03d}'.format(num=index + 1)
@@ -162,15 +164,18 @@ def save_root_api_info(response):
 	write_info_to_file(response.text, file_path)
 
 
+# ERP, app-car-info_车辆信息, 003.车辆详情-/app/car/appCarSearchAction/getCarDetail.json
 def read_root_api_info():
 	rootApiInfo = read_root_api_doc_info(make_root_doc_path())
 	for index, item in enumerate(rootApiInfo['apis']):
-		# ERP_API
-		infoDict['rootDescription'] = rootApiInfo['info']['description']
-		# 个人管理
+		# ERP_API->ERP
+		infoDict['rootDescription'] = rootApiInfo['info']['description'][:3]
 		infoDict['itemDescription'] = item['description']
+		# /souche/* -> *; 即取出/souche/后面的所有字符
+		infoDict['pathDescription'] = item['path'][8:]
 		print 'Output Info: From=> ', infoDict['rootDescription']
 		print 'Output Info: Name=> ', infoDict['itemDescription']
+		print 'Output Info: Path=> ', infoDict['pathDescription']
 		print 'Output Info: Url=> ', server_url + item['path']
 		save_res_info(fetch_domain_url(server_url + item['path']))
 
