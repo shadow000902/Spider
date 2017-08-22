@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+/*/output/
 .idea/
 /*/output.html
 # Distribution / packaging
